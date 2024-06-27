@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import axios, { AxiosError } from 'axios';
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
