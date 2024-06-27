@@ -25,7 +25,7 @@ const App: React.FC = () => {
     cpf: string;
   }
 
-  const API_URL = 'http://localhost:8080';
+  const API_URL = 'https://1fbb-45-170-222-162.ngrok-free.app';
 
   const validateName = (name: string) => {
     if (!name) {
