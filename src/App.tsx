@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import axios from 'axios';
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
@@ -9,6 +10,18 @@ const App: React.FC = () => {
   const [confirmEmail, setConfirmEmail] = useState('');
   const [errors, setErrors] = useState<{ name?: string; cpf?: string; email?: string; confirmEmail?: string }>({});
   const [message, setMessage] = useState('');
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [pixCopiaECola, setPixCopiaECola] = useState<string | null>(null);
+
+  const qrCodeRef = useRef<HTMLDivElement>(null);
+
+  interface User {
+    nome: string;
+    email: string;
+    cpf: string;
+  }
+
+  const API_URL = 'http://localhost:8080';
 
   const validateName = (name: string) => {
     if (!name) {
@@ -18,12 +31,8 @@ const App: React.FC = () => {
   };
 
   const validateCpf = (cpf: string) => {
-    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     if (!cpf) {
       return 'CPF é obrigatório';
-    }
-    if (!cpfRegex.test(cpf)) {
-      return 'CPF inválido';
     }
     return '';
   };
@@ -46,6 +55,20 @@ const App: React.FC = () => {
     return '';
   };
 
+  const generateCharge = async (data: User) => {
+    try {
+      console.log(data);
+      const response = await axios.post(API_URL + '/api/v1/pix', data);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Erro ao gerar cobrança Pix: ${error.message}`);
+      } else {
+        throw new Error('Erro desconhecido ao gerar cobrança Pix');
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -61,14 +84,31 @@ const App: React.FC = () => {
 
     setErrors({});
     setMessage('');
+    setQrCode(null);
+    setPixCopiaECola(null);
 
     try {
-      // Simulação de envio de formulário (substituir com sua lógica real)
-      setMessage('Mensagem enviada com sucesso!');
+      const userData: User = { nome: name, email: email, cpf: cpf };
+      const responseData = await generateCharge(userData);
+      setPixCopiaECola(responseData.pixCopiaECola);
+      setQrCode(`data:image/png;base64,${responseData.imagemQrcode}`);
     } catch (error) {
-      setMessage('Erro ao enviar mensagem.');
+      setMessage(error.message);
     }
   };
+
+  const copyToClipboard = () => {
+    if (pixCopiaECola) {
+      navigator.clipboard.writeText(pixCopiaECola);
+      alert('Código Copia e Cola copiado para a área de transferência!');
+    }
+  };
+
+  useEffect(() => {
+    if (qrCodeRef.current && qrCode) {
+      qrCodeRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [qrCode]);
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -112,10 +152,10 @@ const App: React.FC = () => {
                   <div className="col-md-6">
                     <div className="form-floating">
                       <input
-                        type="cpf"
+                        type="text"
                         className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
                         id="cpf"
-                        placeholder="Seu Email"
+                        placeholder="Seu CPF"
                         value={cpf}
                         onChange={(e) => setCpf(e.target.value)}
                       />
@@ -126,7 +166,7 @@ const App: React.FC = () => {
                   <div className="col-12">
                     <div className="form-floating">
                       <input
-                        type="text"
+                        type="email"
                         className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                         id="email"
                         placeholder="seuemail@email.com"
@@ -158,11 +198,25 @@ const App: React.FC = () => {
               </form>
             </div>
             {message && <p className="message">{message}</p>}
+            {qrCode && (
+              <div className="card mt-4 shadow-sm" ref={qrCodeRef}>
+                <div className="card-body text-center">
+                  <p className="card-text">Escaneie o QR Code abaixo ou copie o código para efetuar o pagamento:</p>
+                  <img src={qrCode} alt="QR Code" className="img-fluid mb-3" />
+                  {pixCopiaECola && (
+                    <>
+                      <div className="d-flex flex-column align-items-center">
+                        <button className="btn btn-secondary mb-3" onClick={copyToClipboard}>Copiar código copia e cola</button>
+                        <p className="text-muted">Você tem um prazo de 24 horas para efetuar o pagamento. Após esse período, a cobrança será invalidada.</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 };
