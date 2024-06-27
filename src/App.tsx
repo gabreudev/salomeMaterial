@@ -13,6 +13,10 @@ const App: React.FC = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [pixCopiaECola, setPixCopiaECola] = useState<string | null>(null);
 
+  useEffect(() => {
+    document.title = 'SalomeStudies';
+  }, []);
+
   const qrCodeRef = useRef<HTMLDivElement>(null);
 
   interface User {
@@ -129,7 +133,7 @@ const App: React.FC = () => {
         <div className="row justify-content-center">
           <div className="col-lg-7">
             <div className="section-title position-relative text-center mb-5 pb-2">
-              <h6 className="position-relative d-inline text-primary ps-4">SalomeStudies</h6>
+              <a href="https://www.instagram.com/salomestudies?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="position-relative d-inline text-primary ps-4 text-decoration-none" target="_blank" rel="noopener noreferrer">SalomeStudies</a>
               <h2 className="mt-2">Faça o pagamento e adquira já o seu material</h2>
             </div>
             <div>
