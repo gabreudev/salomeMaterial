@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
@@ -97,7 +97,12 @@ const App: React.FC = () => {
       setPixCopiaECola(responseData.pixCopiaECola);
       setQrCode(`data:image/png;base64,${responseData.imagemQrcode}`);
     } catch (error) {
-      setMessage(error.message);
+      if (error instanceof Error) {
+        setMessage(error.message);
+      } else {
+        setMessage('Erro desconhecido ao gerar cobrança Pix');
+      }
+      
     }
   };
 
