@@ -123,45 +123,43 @@ const App: React.FC = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
       {/* Carrossel de imagens */}
-      <div className="container py-5 equal-width">
-        <div className="row justify-content-center">
-          <div className="col-lg-7">
-            <Carousel>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/600x300.png?text=Imagem+1"
-                  alt="Primeira imagem"
-                />
-                <Carousel.Caption>
-                  <h3>Primeira Imagem</h3>
-                  <p>Descrição da primeira imagem.</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/600x300.png?text=Imagem+2"
-                  alt="Segunda imagem"
-                />
-                <Carousel.Caption>
-                  <h3>Segunda Imagem</h3>
-                  <p>Descrição da segunda imagem.</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/600x300.png?text=Imagem+3"
-                  alt="Terceira imagem"
-                />
-                <Carousel.Caption>
-                  <h3>Terceira Imagem</h3>
-                  <p>Descrição da terceira imagem.</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-            </Carousel>
-          </div>
+      <div className="row justify-content-center">
+        <div className="col-lg-9">
+          <Carousel className="custom-carousel">
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="https://via.placeholder.com/800x400.png?text=Imagem+1"
+                alt="Primeira imagem"
+              />
+              <Carousel.Caption>
+                <h3>Primeira Imagem</h3>
+                <p>Descrição da primeira imagem.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="https://via.placeholder.com/800x400.png?text=Imagem+2"
+                alt="Segunda imagem"
+              />
+              <Carousel.Caption>
+                <h3>Segunda Imagem</h3>
+                <p>Descrição da segunda imagem.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="https://via.placeholder.com/800x400.png?text=Imagem+3"
+                alt="Terceira imagem"
+              />
+              <Carousel.Caption>
+                <h3>Terceira Imagem</h3>
+                <p>Descrição da terceira imagem.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
         </div>
       </div>
 
