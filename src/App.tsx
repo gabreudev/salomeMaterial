@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import axios from 'axios';
+import { Carousel } from 'react-bootstrap';
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
@@ -18,6 +19,7 @@ const App: React.FC = () => {
   }, []);
 
   const qrCodeRef = useRef<HTMLDivElement>(null);
+  const endPageRef = useRef<HTMLDivElement>(null);
 
   interface User {
     nome: string;
@@ -25,7 +27,7 @@ const App: React.FC = () => {
     cpf: string;
   }
 
-  const API_URL = 'https://1fbb-45-170-222-162.ngrok-free.app';
+  const API_URL = 'http://localhost:8080';
 
   const validateName = (name: string) => {
     if (!name) {
@@ -102,7 +104,6 @@ const App: React.FC = () => {
       } else {
         setMessage('Erro desconhecido ao gerar cobrança Pix');
       }
-      
     }
   };
 
@@ -115,26 +116,57 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (qrCodeRef.current && qrCode) {
-      qrCodeRef.current.scrollIntoView({ behavior: 'smooth' });
+      endPageRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [qrCode]);
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* Hero section */}
-      <div className="bg-primary flex-grow-1">
-        <div className="container my-5 py-5 px-lg-5">
-          <div className="row g-5 py-5">
-            <div className="col-12 text-center">
-              <h1 className="text-white">Imagem ilustrativa do material</h1>
-              <hr className="bg-white mx-auto mt-0" style={{ width: '50px' }} />
-            </div>
+      {/* Carrossel de imagens */}
+      <div className="container py-5 equal-width">
+        <div className="row justify-content-center">
+          <div className="col-lg-7">
+            <Carousel>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src="https://via.placeholder.com/600x300.png?text=Imagem+1"
+                  alt="Primeira imagem"
+                />
+                <Carousel.Caption>
+                  <h3>Primeira Imagem</h3>
+                  <p>Descrição da primeira imagem.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src="https://via.placeholder.com/600x300.png?text=Imagem+2"
+                  alt="Segunda imagem"
+                />
+                <Carousel.Caption>
+                  <h3>Segunda Imagem</h3>
+                  <p>Descrição da segunda imagem.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src="https://via.placeholder.com/600x300.png?text=Imagem+3"
+                  alt="Terceira imagem"
+                />
+                <Carousel.Caption>
+                  <h3>Terceira Imagem</h3>
+                  <p>Descrição da terceira imagem.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+            </Carousel>
           </div>
         </div>
       </div>
 
       {/* Formulário de Contato */}
-      <div className="container py-5">
+      <div className="container py-5 equal-width">
         <div className="row justify-content-center">
           <div className="col-lg-7">
             <div className="section-title position-relative text-center mb-5 pb-2">
@@ -226,6 +258,7 @@ const App: React.FC = () => {
           </div>
         </div>
       </div>
+      <div ref={endPageRef}></div>
     </div>
   );
 };
