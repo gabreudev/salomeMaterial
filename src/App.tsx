@@ -123,16 +123,12 @@ const App: React.FC = () => {
     <div className="d-flex flex-column min-vh-100">
       {/* Vídeo do YouTube */}
       <div className="row justify-content-center">
-        <div className="col">
-          <div className="embed-responsive embed-responsive-16by9">
             <iframe
-              className="embed-responsive-item"
+              className="video"
               src="https://www.youtube.com/embed/dQw4w9WgXcQ"
               allowFullScreen
-              title="Vídeo do YouTube"
+              title="Apostilha"
             ></iframe>
-          </div>
-        </div>
       </div>
 
       {/* Formulário de Contato */}
