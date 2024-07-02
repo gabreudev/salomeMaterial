@@ -62,12 +62,15 @@ const App: React.FC = () => {
 
   const generateCharge = async (data: User) => {
     try {
-      console.log(data);
       const response = await axios.post(API_URL + '/api/v1/pix', data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        throw new Error(`Erro ao gerar cobrança Pix: ${error.message}`);
+        if (error.response) {
+          throw new Error(`Erro ${error.response.status}: ${error.response.data.error_description}`);
+        } else {
+          throw new Error(`Erro de requisição: ${error.message}`);
+        }
       } else {
         throw new Error('Erro desconhecido ao gerar cobrança Pix');
       }
