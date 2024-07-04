@@ -238,7 +238,7 @@ const App: React.FC = () => {
                     </ul>
                   </div>
                   <div className="col-12">
-                    <button className="btn btn-primary w-100 py-3" type="submit">Pagar agora</button>
+                    <button className="botao-pagar btn w-100 py-3" type="submit">Pagar agora</button>
                   </div>
                 </div>
               </form>
