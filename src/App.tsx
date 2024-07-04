@@ -39,6 +39,10 @@ const App: React.FC = () => {
     if (!cpf) {
       return 'CPF é obrigatório';
     }
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+    if (!cpfRegex.test(cpf)) {
+      return 'CPF inválido';
+    }
     return '';
   };
 
@@ -95,8 +99,10 @@ const App: React.FC = () => {
     setQrCode(null);
     setPixCopiaECola(null);
 
+    const sanitizedCpf = cpf.replace(/\D/g, '');
+
     try {
-      const userData: User = { nome: name, email: email, cpf: cpf };
+      const userData: User = { nome: name, email: email, cpf: sanitizedCpf };
       const responseData = await generateCharge(userData);
       setPixCopiaECola(responseData.pixCopiaECola);
       setQrCode(`data:image/png;base64,${responseData.imagemQrcode}`);
@@ -122,16 +128,29 @@ const App: React.FC = () => {
     }
   }, [qrCode]);
 
+  const formatCpf = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
+  };
+
+  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCpf(formatCpf(e.target.value));
+  };
+
   return (
     <div className="d-flex flex-column min-vh-100">
       {/* Vídeo do YouTube */}
       <div className="row justify-content-center">
-            <iframe
-              className="video"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              allowFullScreen
-              title="Apostilha"
-            ></iframe>
+        <iframe
+          className="video"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          allowFullScreen
+          title="Apostilha"
+        ></iframe>
       </div>
 
       {/* Formulário de Contato */}
@@ -139,7 +158,14 @@ const App: React.FC = () => {
         <div className="row justify-content-center">
           <div className="col-lg-7">
             <div className="section-title position-relative text-center mb-5 pb-2">
-              <a href="https://www.instagram.com/salomestudies?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="position-relative d-inline text-primary ps-4 text-decoration-none" target="_blank" rel="noopener noreferrer">SalomeStudies</a>
+              <a
+                href="https://www.instagram.com/salomestudies?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                className="position-relative d-inline text-primary ps-4 text-decoration-none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                SalomeStudies
+              </a>
               <h2 className="mt-2">Faça o pagamento e adquira já o seu material</h2>
             </div>
             <div>
@@ -167,7 +193,7 @@ const App: React.FC = () => {
                         id="cpf"
                         placeholder="Seu CPF"
                         value={cpf}
-                        onChange={(e) => setCpf(e.target.value)}
+                        onChange={handleCpfChange}
                       />
                       <label htmlFor="cpf">Seu CPF</label>
                       {errors.cpf && <div className="invalid-feedback">{errors.cpf}</div>}
@@ -201,6 +227,16 @@ const App: React.FC = () => {
                       {errors.confirmEmail && <div className="invalid-feedback">{errors.confirmEmail}</div>}
                     </div>
                   </div>
+                  <div className="lista">
+                      <h6>Informações sobre o pagamento PIX:</h6>
+                    <ul>
+                      <li>Valor do pagemento <strong>R$ 4,90</strong>.</li>
+                      <li>O Material será enviado no email informado.</li>
+                      <li>Liberação imediata!</li>
+                      <li>Após clicar em pagar, escaneie o QRcode ou copie o código gerado.</li>
+
+                    </ul>
+                  </div>
                   <div className="col-12">
                     <button className="btn btn-primary w-100 py-3" type="submit">Pagar agora</button>
                   </div>
@@ -227,7 +263,9 @@ const App: React.FC = () => {
           </div>
         </div>
       </div>
-      <div ref={endPageRef}></div>
+      <div ref={endPageRef}>
+        
+      </div>
     </div>
   );
 };

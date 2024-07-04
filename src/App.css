@@ -13,7 +13,13 @@
 .read-the-docs {
   color: #888;
 }
-
+.lista{
+  background-color: #a5a4a4;
+  text-align: left;
+  border-radius: 10px;
+  font-style: oblique;
+  padding-top: 1%;
+}
 
 
 /* Smartphones (600px para baixo) */
