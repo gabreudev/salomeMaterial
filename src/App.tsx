@@ -264,7 +264,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <div ref={endPageRef}>
-        
+        <h6 className='suporte'>suporte: contato.salome@gmail.com</h6>
       </div>
     </div>
   );

@@ -18,9 +18,13 @@
   text-align: left;
   border-radius: 10px;
   font-style: oblique;
-  padding-top: 1%;
+  padding-top: 8px;
 }
 
+.suporte{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-style: oblique;
+}
 
 /* Smartphones (600px para baixo) */
 @media only screen and (max-width: 600px) {
