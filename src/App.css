@@ -3,7 +3,7 @@
   margin: 0;
   padding: 2rem;
   text-align: center;
-  background-image: url(./img/7.png);
+  background-image: url(./img/fundo.png);
 }
 
 
@@ -14,12 +14,14 @@
 .read-the-docs {
   color: #888;
 }
+
 .lista{
-  background-color: #d4d3d3;
+  background-color: #eee7e7;
   text-align: left;
   border-radius: 10px;
   font-style: oblique;
   padding-top: 8px;
+
 }
 
 .suporte{
@@ -30,11 +32,15 @@
 .botao-pagar{
   background-color: rgb(237, 172, 160);
 }
+.video{
+  border-radius: 5%;
+}
 
 /* Smartphones (600px para baixo) */
 @media only screen and (max-width: 600px) {
   .video {
     margin: 0 auto;
+    height: 190px;
   }
 }
 
@@ -48,7 +54,9 @@
 /* Dispostivos Médios (Tablets deitados, 768px para cima) */
 @media only screen and (min-width: 768px) {
   .video {
-    margin: 0 auto;
+    max-width: 750px; /* Largura máxima permitida */
+    width: 100%; /* Garante que ocupe toda a largura disponível até 900px */
+    height: 400px;
   }
 }
 

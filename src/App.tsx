@@ -15,6 +15,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     document.title = 'SalomeStudies';
+
+    const favicon = document.getElementById('favicon') as HTMLLinkElement;
+    if (favicon) {
+      favicon.href = `./favicon.ico`;
+    } else {
+      const newFavicon = document.createElement('link');
+      newFavicon.id = 'favicon';
+      newFavicon.rel = 'icon';
+      newFavicon.href = `./favicon.ico`;
+      document.head.appendChild(newFavicon);
+    }
   }, []);
 
   const qrCodeRef = useRef<HTMLDivElement>(null);
@@ -26,7 +37,7 @@ const App: React.FC = () => {
     cpf: string;
   }
 
-  const API_URL = 'http://localhost:8080';
+  const API_URL = 'https://prod-salomematerial.onrender.com';
 
   const validateName = (name: string) => {
     if (!name) {
@@ -142,12 +153,13 @@ const App: React.FC = () => {
   };
 
   return (
+<>
     <div className="d-flex flex-column min-vh-100">
       {/* Vídeo do YouTube */}
       <div className="row justify-content-center">
         <iframe
           className="video"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          src="https://www.youtube.com/embed/PetwcWjT-go"
           allowFullScreen
           title="Apostilha"
         ></iframe>
@@ -264,9 +276,10 @@ const App: React.FC = () => {
         </div>
       </div>
       <div ref={endPageRef}>
-        <h6 className='suporte'>suporte: contato.salome@gmail.com</h6>
+        <h6 className='suporte'>suporte: suporte.salome@gmail.com</h6>
       </div>
     </div>
+    </>
   );
 };
 
