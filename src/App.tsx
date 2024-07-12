@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [message, setMessage] = useState('');
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [pixCopiaECola, setPixCopiaECola] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false); // Estado de carregamento
 
   useEffect(() => {
     document.title = 'SalomeStudies';
@@ -109,6 +110,7 @@ const App: React.FC = () => {
     setMessage('');
     setQrCode(null);
     setPixCopiaECola(null);
+    setLoading(true); // Inicia o carregamento
 
     const sanitizedCpf = cpf.replace(/\D/g, '');
 
@@ -123,6 +125,8 @@ const App: React.FC = () => {
       } else {
         setMessage('Erro desconhecido ao gerar cobrança Pix');
       }
+    } finally {
+      setLoading(false); // Finaliza o carregamento
     }
   };
 
@@ -153,132 +157,140 @@ const App: React.FC = () => {
   };
 
   return (
-<>
-    <div className="d-flex flex-column min-vh-100">
-      {/* Vídeo do YouTube */}
-      <div className="row justify-content-center">
-        <iframe
-          className="video"
-          src="https://www.youtube.com/embed/PetwcWjT-go"
-          allowFullScreen
-          title="Apostilha"
-        ></iframe>
-      </div>
-
-      {/* Formulário de Contato */}
-      <div className="container py-5 equal-width">
+    <>
+      <div className="d-flex flex-column min-vh-100">
+        {/* Vídeo do YouTube */}
         <div className="row justify-content-center">
-          <div className="col-lg-7">
-            <div className="section-title position-relative text-center mb-5 pb-2">
-              <a
-                href="https://www.instagram.com/salomestudies?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                className="position-relative d-inline text-primary ps-4 text-decoration-none"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                SalomeStudies
-              </a>
-              <h2 className="mt-2">Faça o pagamento e adquira já o seu material</h2>
-            </div>
-            <div>
-              <form onSubmit={handleSubmit}>
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <div className="form-floating">
-                      <input
-                        type="text"
-                        className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-                        id="name"
-                        placeholder="Seu Nome"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                      <label htmlFor="name">Seu Nome</label>
-                      {errors.name && <div className="invalid-feedback">{errors.name}</div>}
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-floating">
-                      <input
-                        type="text"
-                        className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
-                        id="cpf"
-                        placeholder="Seu CPF"
-                        value={cpf}
-                        onChange={handleCpfChange}
-                      />
-                      <label htmlFor="cpf">Seu CPF</label>
-                      {errors.cpf && <div className="invalid-feedback">{errors.cpf}</div>}
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="form-floating">
-                      <input
-                        type="email"
-                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                        id="email"
-                        placeholder="seuemail@email.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                      <label htmlFor="email">Email</label>
-                      {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="form-floating">
-                      <input
-                        type="email"
-                        className={`form-control ${errors.confirmEmail ? 'is-invalid' : ''}`}
-                        id="confirmEmail"
-                        placeholder="Confirmar Email"
-                        value={confirmEmail}
-                        onChange={(e) => setConfirmEmail(e.target.value)}
-                      />
-                      <label htmlFor="confirmEmail">Confirmar Email</label>
-                      {errors.confirmEmail && <div className="invalid-feedback">{errors.confirmEmail}</div>}
-                    </div>
-                  </div>
-                  <div className="lista">
-                      <h6>Informações sobre o pagamento PIX:</h6>
-                    <ul>
-                      <li>Valor do pagemento <strong>R$ 4,90</strong>.</li>
-                      <li>O Material será enviado no email informado.</li>
-                      <li>Liberação imediata!</li>
-                      <li>Após clicar em pagar, escaneie o QRcode ou copie o código gerado.</li>
+          <iframe
+            className="video"
+            src="https://www.youtube.com/embed/PetwcWjT-go"
+            allowFullScreen
+            title="Apostilha"
+          ></iframe>
+        </div>
 
-                    </ul>
-                  </div>
-                  <div className="col-12">
-                    <button className="botao-pagar btn w-100 py-3" type="submit">Pagar agora</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            {message && <p className="message">{message}</p>}
-            {qrCode && (
-              <div className="card mt-4 shadow-sm" ref={qrCodeRef}>
-                <div className="card-body text-center">
-                  <p className="card-text">Escaneie o QR Code abaixo ou copie o código para efetuar o pagamento:</p>
-                  <img src={qrCode} alt="QR Code" className="img-fluid mb-3" />
-                  {pixCopiaECola && (
-                    <>
-                      <div className="d-flex flex-column align-items-center">
-                        <button className="btn btn-secondary mb-3" onClick={copyToClipboard}>Copiar código copia e cola</button>
-                        <p className="text-muted">Você tem um prazo de 24 horas para efetuar o pagamento. Após esse período, a cobrança será invalidada.</p>
-                      </div>
-                    </>
-                  )}
-                </div>
+        {/* Formulário de Contato */}
+        <div className="container py-5 equal-width">
+          <div className="row justify-content-center">
+            <div className="col-lg-7">
+              <div className="section-title position-relative text-center mb-5 pb-2">
+                <a
+                  href="https://www.instagram.com/salomestudies?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                  className="position-relative d-inline text-primary ps-4 text-decoration-none"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @SalomeStudies
+                </a>
+                <h2 className="mt-2">Faça o pagamento e adquira já o seu material</h2>
               </div>
-            )}
+              <div>
+                <form onSubmit={handleSubmit}>
+                  <div className="row g-3">
+                    <div className="col-md-6">
+                      <div className="form-floating">
+                        <input
+                          type="text"
+                          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                          id="name"
+                          placeholder="Seu Nome"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                        <label htmlFor="name">Seu Nome</label>
+                        {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-floating">
+                        <input
+                          type="text"
+                          className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
+                          id="cpf"
+                          placeholder="Seu CPF"
+                          value={cpf}
+                          onChange={handleCpfChange}
+                        />
+                        <label htmlFor="cpf">Seu CPF</label>
+                        {errors.cpf && <div className="invalid-feedback">{errors.cpf}</div>}
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="form-floating">
+                        <input
+                          type="email"
+                          className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                          id="email"
+                          placeholder="seuemail@email.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <label htmlFor="email">Email</label>
+                        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="form-floating">
+                        <input
+                          type="email"
+                          className={`form-control ${errors.confirmEmail ? 'is-invalid' : ''}`}
+                          id="confirmEmail"
+                          placeholder="Confirmar Email"
+                          value={confirmEmail}
+                          onChange={(e) => setConfirmEmail(e.target.value)}
+                        />
+                        <label htmlFor="confirmEmail">Confirmar Email</label>
+                        {errors.confirmEmail && <div className="invalid-feedback">{errors.confirmEmail}</div>}
+                      </div>
+                    </div>
+                    <div className="lista">
+                      <h6>Informações sobre o pagamento PIX:</h6>
+                      <ul>
+                        <li>Valor do pagamento <strong>R$ 4,90</strong>.</li>
+                        <li>O Material será enviado no email informado.</li>
+                        <li>Liberação imediata!</li>
+                        <li>Após clicar em pagar, espere até que a cobrança seja gerada e escaneie o QRcode ou copie o código gerado.</li>
+                      </ul>
+                    </div>
+                    <div className="col-12">
+                      <button className="botao-pagar btn w-100 py-3" type="submit" disabled={loading}>
+                        {loading ? 'Gerando cobrança...' : 'Pagar agora'}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              {message && <p className="message">{message}</p>}
+              {loading && (
+                <div className="d-flex justify-content-center mt-3">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              )}
+              {qrCode && (
+                <div className="card mt-4 shadow-sm" ref={qrCodeRef}>
+                  <div className="card-body text-center">
+                    <p className="card-text">Escaneie o QR Code abaixo ou copie o código para efetuar o pagamento:</p>
+                    <img src={qrCode} alt="QR Code" className="img-fluid mb-3" />
+                    {pixCopiaECola && (
+                      <>
+                        <div className="d-flex flex-column align-items-center">
+                          <button className="btn btn-secondary mb-3" onClick={copyToClipboard}>Copiar código copia e cola</button>
+                          <p className="text-muted">Você tem um prazo de 24 horas para efetuar o pagamento. Após esse período, a cobrança será invalidada.</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
+        <div ref={endPageRef}>
+          <h6 className='suporte'>suporte: suporte.salome@gmail.com</h6>
+        </div>
       </div>
-      <div ref={endPageRef}>
-        <h6 className='suporte'>suporte: suporte.salome@gmail.com</h6>
-      </div>
-    </div>
     </>
   );
 };
