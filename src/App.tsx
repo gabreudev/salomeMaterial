@@ -12,7 +12,7 @@ const App: React.FC = () => {
   const [message, setMessage] = useState('');
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [pixCopiaECola, setPixCopiaECola] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false); // Estado de carregamento
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     document.title = 'SalomeStudies';
@@ -110,7 +110,7 @@ const App: React.FC = () => {
     setMessage('');
     setQrCode(null);
     setPixCopiaECola(null);
-    setLoading(true); // Inicia o carregamento
+    setLoading(true); 
 
     const sanitizedCpf = cpf.replace(/\D/g, '');
 
@@ -126,7 +126,7 @@ const App: React.FC = () => {
         setMessage('Erro desconhecido ao gerar cobrança Pix');
       }
     } finally {
-      setLoading(false); // Finaliza o carregamento
+      setLoading(false); 
     }
   };
 
@@ -182,7 +182,7 @@ const App: React.FC = () => {
                 >
                   @SalomeStudies
                 </a>
-                <h2 className="mt-2">Faça o pagamento e adquira já o seu material</h2>
+                <h2 className="mt-2 titulo">Faça o pagamento e adquira já o seu guia da redação</h2>
               </div>
               <div>
                 <form onSubmit={handleSubmit}>
@@ -248,7 +248,7 @@ const App: React.FC = () => {
                       <ul>
                         <li>Valor do pagamento <strong>R$ 4,90</strong>.</li>
                         <li>O Material será enviado no email informado.</li>
-                        <li>Liberação imediata!</li>
+                        <li>Envio imediato!</li>
                         <li>Após clicar em pagar, espere até que a cobrança seja gerada e escaneie o QRcode ou copie o código gerado.</li>
                       </ul>
                     </div>
