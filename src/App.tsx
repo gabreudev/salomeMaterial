@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [pixCopiaECola, setPixCopiaECola] = useState<string | null>(null);
   const [loading, setLoading] = useState(false); 
+  const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
     document.title = 'SalomeStudies';
@@ -133,7 +134,8 @@ const App: React.FC = () => {
   const copyToClipboard = () => {
     if (pixCopiaECola) {
       navigator.clipboard.writeText(pixCopiaECola);
-      alert('Código Copia e Cola copiado para a área de transferência!');
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 3000);
     }
   };
 
@@ -249,7 +251,7 @@ const App: React.FC = () => {
                         <li>Valor do pagamento <strong>R$ 4,90</strong>.</li>
                         <li>O Material será enviado no email informado.</li>
                         <li>Envio imediato!</li>
-                        <li>Após clicar em pagar, espere até que a cobrança seja gerada e escaneie o QRcode ou copie o código gerado.</li>
+                        <li>Após clicar em pagar, espere até que a cobrança seja gerada, escaneie o QRcode ou copie o código gerado.</li>
                       </ul>
                     </div>
                     <div className="col-12">
@@ -279,6 +281,11 @@ const App: React.FC = () => {
                           <button className="btn btn-secondary mb-3" onClick={copyToClipboard}>Copiar código copia e cola</button>
                           <p className="text-muted">Você tem um prazo de 24 horas para efetuar o pagamento. Após esse período, a cobrança será invalidada.</p>
                         </div>
+                        {copySuccess && (
+                          <div className="alert alert-success" role="alert">
+                            Código Copia e Cola copiado para a área de transferência!
+                          </div>
+                        )}
                       </>
                     )}
                   </div>
