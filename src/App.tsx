@@ -39,7 +39,7 @@ const App: React.FC = () => {
     cpf: string;
   }
 
-  const API_URL = 'https://salomematerial-api.azurewebsites.net';
+  const API_URL = 'https://prod-salomematerial-1.onrender.com';
 
   const validateName = (name: string) => {
     if (!name) {
